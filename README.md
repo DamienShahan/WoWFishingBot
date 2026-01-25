@@ -82,23 +82,22 @@ Look for devices marked with **⭐ WASAPI LOOPBACK** and note the index number.
 Edit the configuration section at the top of `main.py`:
 
 ```python
-# Device Configuration
-OUTPUT_DEVICE_INDEX = 42  # Change to your device index
+# Configuration
+TARGET_FILE = "sounds/target.wav"
+OUT_OF_RANGE_FILE = "sounds/out-of-range.wav"
+OUTPUT_DEVICE_INDEX = 38
+LISTEN_DURATION = 23  # seconds
 
-# Audio Files
-TARGET_FILE = "target.wav"
-OUT_OF_RANGE_FILE = "out-of-range.wav"
+# Wait times as ranges (min, max) in seconds
+WAIT_AFTER_NOT_FOUND = (1, 2)
+WAIT_AFTER_TARGET_FOUND = (3, 5)
+WAIT_AFTER_OUT_OF_RANGE = (2, 4)
 
-# Timing
-LISTEN_DURATION = 23  # Maximum listen time per cycle
+THRESHOLD = 1.2  # Correlation threshold (adjust if needed)
+CHUNK_DURATION = 0.3  # Process audio every 0.3 seconds for faster response
 
-# Wait times as (min, max) ranges in seconds
-WAIT_AFTER_TARGET_FOUND = (3, 5)      # After successful detection
-WAIT_AFTER_OUT_OF_RANGE = (1.5, 2.5)  # After out-of-range detection
-WAIT_AFTER_NOT_FOUND = (0.5, 1.5)     # After timeout
-
-# Detection
-THRESHOLD = 0.6  # Correlation threshold (0.0-1.0, higher = stricter)
+# Hotkey configuration
+ACTION_KEY = 'k'  # Key to press which starts/ends the action
 ```
 
 ## Usage
@@ -106,7 +105,8 @@ THRESHOLD = 0.6  # Correlation threshold (0.0-1.0, higher = stricter)
 ### Basic Usage
 
 ```bash
-python main.py
+.\.venv\Scripts\Activate.ps1
+python fishing.py
 ```
 
 ### Stop the Program
@@ -125,14 +125,14 @@ REAL-TIME DUAL AUDIO DETECTION PROGRAM
 [01:44:14]   Loaded: 22050 samples, sample rate: 48000 Hz, duration: 0.459s
 
 ============================================================
-CYCLE #1 - STARTING
+🎣 CYCLE #1 - STARTING
 ============================================================
 [01:44:15] >>> PRESSING KEY: 'k' <<<
 [01:44:15] Now listening for up to 23 seconds...
 [01:44:17]   Still listening... 2.1s elapsed (buffer: 2.1s)
 
 ============================================================
-✓✓✓ TARGET SOUND DETECTED! ✓✓✓
+🐟 TARGET SOUND DETECTED!
 ============================================================
 [01:44:19] Detection Score: 0.847
 [01:44:19] >>> PRESSING KEY: 'k' <<<
@@ -212,9 +212,9 @@ The program uses **cross-correlation** to detect audio patterns:
 
 ### Adjusting Detection Sensitivity
 
-- **More sensitive** (more false positives): `THRESHOLD = 0.4`
-- **Less sensitive** (fewer false positives): `THRESHOLD = 0.7`
-- **Default balanced**: `THRESHOLD = 0.6`
+- **More sensitive** (more false positives): `THRESHOLD = 0.6`
+- **Less sensitive** (fewer false positives): `THRESHOLD = 1.8`
+- **Default balanced**: `THRESHOLD = 1.2`
 
 ### Changing Wait Time Ranges
 
