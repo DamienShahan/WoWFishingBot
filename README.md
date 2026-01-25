@@ -54,22 +54,35 @@ pyautogui
 
 ## Installation
 
-### 1. Install Python Packages
+### 1. Set up Virtual Environment
+
+```bash
+python3 -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+### 2. Install Python Packages
+
+```bash
+pip install -r requirements.txt
+```
+
+or
 
 ```bash
 pip install pyaudiowpatch numpy scipy librosa pyautogui
 ```
 
-### 2. Prepare Audio Files
+### 3. Prepare Audio Files
 
-Create two WAV files in the same directory as the script:
+Create two WAV files in the sound folder:
 
 - `target.wav` - The sound you want to detect (e.g., fishing bobber splash)
 - `out-of-range.wav` - The sound indicating failure (e.g., "out of range" voice)
 
 **Tip**: Record these directly from your application for best accuracy.
 
-### 3. Find Your Audio Device Index
+### 4. Find Your Audio Device Index
 
 Run the device listing script:
 
