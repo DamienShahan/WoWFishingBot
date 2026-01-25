@@ -49,6 +49,8 @@ pyautogui
 - **OS**: Windows (WASAPI loopback support)
 - **Audio**: Active audio output device
 - **Python**: 3.7+
+- **Weakaura**: [FishingRangeAlert](https://wago.io/4jGL2hFGC)
+- **AddOn**: [Better Fishing](https://www.curseforge.com/wow/addons/better-fishing)
 
 ## Installation
 
