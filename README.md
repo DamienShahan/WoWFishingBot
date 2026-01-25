@@ -94,7 +94,7 @@ Look for devices marked with **⭐ WASAPI LOOPBACK** and note the index number.
 
 ## Configuration
 
-Edit the configuration section at the top of `main.py`:
+Edit the configuration section at the top of `fishing.py`:
 
 ```python
 # Configuration
@@ -198,11 +198,11 @@ REAL-TIME DUAL AUDIO DETECTION PROGRAM
 ```
 project/
 │
-├── main.py                 # Main program
+├── fishing.py              # Main program
 ├── list_devices.py         # Device listing utility
-├── target.wav             # Target sound file
-├── out-of-range.wav       # Out-of-range sound file
-└── README.md              # This file
+├── sounds/target.wav       # Target sound file
+├── sounds/out-of-range.wav # Out-of-range sound file
+└── README.md               # This file
 ```
 
 ## Technical Details
