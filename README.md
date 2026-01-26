@@ -250,10 +250,11 @@ WAIT_AFTER_TARGET_FOUND = (5, 10)
 
 ### Different Key Bindings
 
-Modify the `press_key()` calls in the main loop:
+Modify the fishing hotkey in `ACTION_KEY`:
 
 ```python
-press_key('e')  # Change from 'k' to 'e'
+# Hotkey configuration
+ACTION_KEY = 'e'  # Change from 'k' to 'e'
 ```
 
 ## Safety Notes
