@@ -10,6 +10,7 @@ An automated audio detection system that listens for specific sounds and trigger
 - **Randomized wait times** - makes behavior more natural and unpredictable
 - **Cross-correlation detection** - robust audio matching that handles volume variations
 - **Detailed logging** - timestamped events for debugging and monitoring
+- **Automatic window focusing on target detection** - brings a specific application to the foreground before sending the action key, allowing you to keep working in another window/screen
 
 ## How It Works
 
