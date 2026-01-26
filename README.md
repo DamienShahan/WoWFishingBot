@@ -61,16 +61,16 @@ python3 -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
+If opening the virtual environment is being blocked, you can allow it with this command:
+
+```bash
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
 ### 2. Install Python Packages
 
 ```bash
 pip install -r requirements.txt
-```
-
-or
-
-```bash
-pip install pyaudiowpatch numpy scipy librosa pyautogui
 ```
 
 ### 3. Prepare Audio Files
@@ -119,7 +119,12 @@ ACTION_KEY = 'k'  # Key to press which starts/ends the action
 
 ### Basic Usage
 
+1. Navigate to your folder
+2. Start the virtual environment
+3. Start the fishing bot
+
 ```bash
+cd <your folder path>
 .\.venv\Scripts\Activate.ps1
 python fishing.py
 ```
