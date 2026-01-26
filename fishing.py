@@ -15,9 +15,9 @@ OUTPUT_DEVICE_INDEX = 38
 LISTEN_DURATION = 23  # seconds
 
 # Wait times as ranges (min, max) in seconds
-WAIT_AFTER_NOT_FOUND = (1, 2)  # Random between 0.5 and 1.5 seconds
-WAIT_AFTER_TARGET_FOUND = (3, 5)  # Random between 3 and 5 seconds
-WAIT_AFTER_OUT_OF_RANGE = (2, 4)  # Random between 1.5 and 2.5 seconds
+WAIT_AFTER_NOT_FOUND = (1, 2)  # Random between 1 and 2 seconds
+WAIT_AFTER_TARGET_FOUND = (1.5, 2.5)  # Random between 1.5 and 2.5 seconds
+WAIT_AFTER_OUT_OF_RANGE = (1, 1.5)  # Random between 1 and 1.5 seconds
 
 THRESHOLD = 1.2  # Correlation threshold (adjust if needed)
 CHUNK_DURATION = 0.3  # Process audio every 0.3 seconds for faster response
