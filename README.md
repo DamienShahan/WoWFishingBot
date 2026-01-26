@@ -57,7 +57,7 @@ pyautogui
 ### 1. Set up Virtual Environment
 
 ```bash
-python3 -m venv venv
+python3 -m venv .venv
 .\venv\Scripts\Activate.ps1
 ```
 
