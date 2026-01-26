@@ -17,10 +17,10 @@ An automated audio detection system that listens for specific sounds and trigger
 ### Flow
 
 1. **Start Cycle**: Program begins listening for audio
-2. **Press 'k'**: Automatically presses 'k' to start an action
+2. **Press Hotkey**: Automatically presses the designated hotkey (e.g. 'k') to start an action
 3. **Listen**: Monitors audio output for 23 seconds
 4. **Detect**:
-   - **Target sound found** → Press 'k' to end action, wait 3-5 seconds, restart cycle
+   - **Target sound found** → Press the hotkey to end action, wait 3-5 seconds, restart cycle
    - **Out-of-range sound found** → Action ends automatically (no key press), wait 1.5-2.5 seconds, restart cycle
    - **No sound found** → Wait 0.5-1.5 seconds, retry
 
