@@ -42,6 +42,7 @@ numpy
 scipy
 librosa
 pyautogui
+pywinauto
 ```
 
 ### System Requirements
@@ -98,6 +99,7 @@ Edit the configuration section at the top of `fishing.py`:
 
 ```python
 # Configuration
+WOW_TITLE_REGEX = r"^World of Warcraft$"   # exact match
 TARGET_FILE = "sounds/target.wav"
 OUT_OF_RANGE_FILE = "sounds/out-of-range.wav"
 OUTPUT_DEVICE_INDEX = 38
