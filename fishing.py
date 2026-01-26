@@ -5,10 +5,12 @@ import librosa
 import pyautogui
 import time
 import random
+from pywinauto import Desktop
 from datetime import datetime
 from collections import deque
 
 # Configuration
+WOW_TITLE_REGEX = r"^World of Warcraft$"   # exact match
 TARGET_FILE = "sounds/target.wav"
 OUT_OF_RANGE_FILE = "sounds/out-of-range.wav"
 OUTPUT_DEVICE_INDEX = 38
@@ -152,6 +154,11 @@ def record_and_detect_realtime(p, device_index, target_audio, out_of_range_audio
     
     log(f"Audio stream ACTIVE - ready to capture immediate sounds")
     log(f"Final sample rate: {sample_rate} Hz")
+    
+    log(f"Setting WoW as the active application")
+    pos = pyautogui.position()
+    Desktop(backend="win32").window(title_re=WOW_TITLE_REGEX).set_focus()
+    pyautogui.moveTo(pos.x, pos.y, duration=0)
     
     press_key(ACTION_KEY)
     
@@ -310,7 +317,13 @@ def main():
                 # Target sound found - press ACTION_KEY to END action, then wait random time
                 target_count += 1
                 log("")
-                log(f"🐟 ACTION: Target detected → Pressing '{ACTION_KEY}' to END action")
+                log(f"🐟 ACTION: Target detected → Setting WoW as the active application")
+                
+                pos = pyautogui.position()
+                Desktop(backend="win32").window(title_re=WOW_TITLE_REGEX).set_focus()
+                pyautogui.moveTo(pos.x, pos.y, duration=0)
+                    
+                log(f"🐟 Pressing '{ACTION_KEY}' to reel in the fish")
                 press_key(ACTION_KEY)
                 
                 wait_time = random_wait(WAIT_AFTER_TARGET_FOUND)
