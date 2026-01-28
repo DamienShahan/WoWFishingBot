@@ -59,14 +59,14 @@ pywinauto
 ### 1. Set up Virtual Environment
 
 ```bash
-python3 -m venv .venv
+python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
 If opening the virtual environment is being blocked, you can allow it with this command:
 
 ```bash
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ```
 
 ### 2. Install Python Packages
