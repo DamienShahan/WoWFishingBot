@@ -77,7 +77,7 @@ pip install -r requirements.txt
 
 ### 3. Prepare Audio Files
 
-Create two WAV files in the sound folder:
+In the `sounds` folder are two WAV files, of the fishing sounds to be listened for. If these sounds do not work for you, you will have to re-record them yourself.
 
 - `target.wav` - The sound you want to detect (e.g., fishing bobber splash)
 - `out-of-range.wav` - The sound indicating failure (e.g., "out of range" voice)
