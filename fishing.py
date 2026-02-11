@@ -77,7 +77,7 @@ USE_LURE = SETTINGS["USE_LURE"]
 # Script-owned config (not in YAML)
 LISTEN_DURATION = 23  # seconds
 CHUNK_DURATION = 0.3  # Process audio every 0.3 seconds for faster response
-LURE_COOLDOWN_SECONDS = 9 * 60 + 30  # 9 minutes 30 seconds
+LURE_COOLDOWN_SECONDS = 10 * 60 # 10 minutes
 LURE_WAIT_TIME = (5.1, 5.5)
 
 def log(message):

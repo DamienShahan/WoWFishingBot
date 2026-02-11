@@ -11,14 +11,14 @@ An automated audio detection system that listens for specific sounds and trigger
 - **Cross-correlation detection** - robust audio matching that handles volume variations
 - **Detailed logging** - timestamped events for debugging and monitoring
 - **Automatic window focusing on target detection** - brings a specific application to the foreground before sending the action key, allowing you to keep working in another window/screen
-- **Optional auto-lure support** - applies a lure at the start of the cycle and re-applies it every ~9m30s (on the next cycle start)
+- **Optional auto-lure support** - applies a lure at the start of the cycle and re-applies it every ~10m (on the next cycle start)
 
 ## How It Works
 
 ### Flow
 
 1. **Apply Lure**:
-   - If no lure has been applied yet, or **9m30s** have elapsed since the last lure → press `LURE_KEY` to apply lure
+   - If no lure has been applied yet, or **10m** have elapsed since the last lure → press `LURE_KEY` to apply lure
    - Wait ~**5.1–5.5s** so the lure cast finishes cleanly
 2. **Start Cycle**: Program begins listening for audio
 3. **Press Hotkey**: Automatically presses the designated `ACTION_KEY` (e.g. 'k') to start an action
