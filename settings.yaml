@@ -3,15 +3,16 @@
 WOW_TITLE_REGEX: "^World of Warcraft$"
 TARGET_FILE: "sounds/target.wav"
 OUT_OF_RANGE_FILE: "sounds/out-of-range.wav"
-
 OUTPUT_DEVICE_INDEX: 38
-THRESHOLD: 1.2
 
+THRESHOLD: 1.2 # Correlation threshold (adjust if needed)
+
+# Wait times as ranges (min, max) in seconds
 WAIT_AFTER_NOT_FOUND: [1.0, 2.0]
 WAIT_AFTER_TARGET_FOUND: [1.5, 2.5]
 WAIT_AFTER_OUT_OF_RANGE: [1.0, 1.5]
 
-ACTION_KEY: "k"
-LURE_KEY: "f5"
+ACTION_KEY: "k" # Key to press which starts/ends the action
+LURE_KEY: "f5" # Key to press to apply the lure
 
-USE_LURE: true
+USE_LURE: false # activate (true) or deactivate (false) using a lure
