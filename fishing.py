@@ -351,7 +351,7 @@ def main():
     log("FLOW:")
     if USE_LURE:
         log(f"  1. At the start of the cycle press '{LURE_KEY}' to apply lure")
-        log(f"     Then, every 9m30s elapsed, apply the lure with '{LURE_KEY}' again")
+        log(f"     Then, every 10m elapsed, apply the lure with '{LURE_KEY}' again")
     else:
         log("  1. Lure disabled (USE_LURE=false)")
     log(f"  2. Start listening → Press '{ACTION_KEY}' to begin action")
