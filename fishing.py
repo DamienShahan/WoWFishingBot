@@ -8,24 +8,75 @@ import random
 from pywinauto import Desktop
 from datetime import datetime
 from collections import deque
+import yaml
 
-# Configuration
-WOW_TITLE_REGEX = r"^World of Warcraft$"   # exact match
-TARGET_FILE = "sounds/target.wav"
-OUT_OF_RANGE_FILE = "sounds/out-of-range.wav"
-OUTPUT_DEVICE_INDEX = 38
+def load_settings(path="settings.yaml"):
+    with open(path, "r", encoding="utf-8") as f:
+        cfg = yaml.safe_load(f) or {}
+
+    # Required keys (fail fast with clear message)
+    required = [
+        "WOW_TITLE_REGEX",
+        "TARGET_FILE",
+        "OUT_OF_RANGE_FILE",
+        "OUTPUT_DEVICE_INDEX",
+        "THRESHOLD",
+        "WAIT_AFTER_NOT_FOUND",
+        "WAIT_AFTER_TARGET_FOUND",
+        "WAIT_AFTER_OUT_OF_RANGE",
+        "ACTION_KEY",
+        "LURE_KEY",
+        "USE_LURE",
+    ]
+    missing = [k for k in required if k not in cfg]
+    if missing:
+        raise KeyError(f"Missing keys in {path}: {', '.join(missing)}")
+
+    def as_range(name):
+        v = cfg[name]
+        if not isinstance(v, list) or len(v) != 2:
+            raise ValueError(f"{name} must be a list like [min, max], got: {v!r}")
+        a = float(v[0])
+        b = float(v[1])
+        if a < 0 or b < a:
+            raise ValueError(f"{name} invalid range {v!r} (expected 0 <= min <= max)")
+        return (a, b)
+
+    cfg["OUTPUT_DEVICE_INDEX"] = int(cfg["OUTPUT_DEVICE_INDEX"])
+    cfg["THRESHOLD"] = float(cfg["THRESHOLD"])
+    cfg["WAIT_AFTER_NOT_FOUND"] = as_range("WAIT_AFTER_NOT_FOUND")
+    cfg["WAIT_AFTER_TARGET_FOUND"] = as_range("WAIT_AFTER_TARGET_FOUND")
+    cfg["WAIT_AFTER_OUT_OF_RANGE"] = as_range("WAIT_AFTER_OUT_OF_RANGE")
+    cfg["ACTION_KEY"] = str(cfg["ACTION_KEY"])
+    cfg["LURE_KEY"] = str(cfg["LURE_KEY"])
+    cfg["WOW_TITLE_REGEX"] = str(cfg["WOW_TITLE_REGEX"])
+    cfg["TARGET_FILE"] = str(cfg["TARGET_FILE"])
+    cfg["OUT_OF_RANGE_FILE"] = str(cfg["OUT_OF_RANGE_FILE"])
+    cfg["USE_LURE"] = bool(cfg["USE_LURE"])
+
+    return cfg
+
+# Set global settings from YAML file
+SETTINGS = load_settings("settings.yaml")
+
+WOW_TITLE_REGEX = SETTINGS["WOW_TITLE_REGEX"]
+TARGET_FILE = SETTINGS["TARGET_FILE"]
+OUT_OF_RANGE_FILE = SETTINGS["OUT_OF_RANGE_FILE"]
+OUTPUT_DEVICE_INDEX = SETTINGS["OUTPUT_DEVICE_INDEX"]
+THRESHOLD = SETTINGS["THRESHOLD"]
+
+WAIT_AFTER_NOT_FOUND = SETTINGS["WAIT_AFTER_NOT_FOUND"]
+WAIT_AFTER_TARGET_FOUND = SETTINGS["WAIT_AFTER_TARGET_FOUND"]
+WAIT_AFTER_OUT_OF_RANGE = SETTINGS["WAIT_AFTER_OUT_OF_RANGE"]
+
+ACTION_KEY = SETTINGS["ACTION_KEY"]
+LURE_KEY = SETTINGS["LURE_KEY"]
+
+USE_LURE = SETTINGS["USE_LURE"]
+
+# Script-owned config (not in YAML)
 LISTEN_DURATION = 23  # seconds
-
-# Wait times as ranges (min, max) in seconds
-WAIT_AFTER_NOT_FOUND = (1, 2)  # Random between 1 and 2 seconds
-WAIT_AFTER_TARGET_FOUND = (1.5, 2.5)  # Random between 1.5 and 2.5 seconds
-WAIT_AFTER_OUT_OF_RANGE = (1, 1.5)  # Random between 1 and 1.5 seconds
-
-THRESHOLD = 1.2  # Correlation threshold (adjust if needed)
 CHUNK_DURATION = 0.3  # Process audio every 0.3 seconds for faster response
-
-# Hotkey configuration
-ACTION_KEY = 'k'  # Key to press which starts/ends the action
 
 def log(message):
     """Print timestamped log messages"""
