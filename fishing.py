@@ -77,6 +77,8 @@ USE_LURE = SETTINGS["USE_LURE"]
 # Script-owned config (not in YAML)
 LISTEN_DURATION = 23  # seconds
 CHUNK_DURATION = 0.3  # Process audio every 0.3 seconds for faster response
+LURE_COOLDOWN_SECONDS = 9 * 60 + 30  # 9 minutes 30 seconds
+LURE_WAIT_TIME = (5.1, 5.5)
 
 def log(message):
     """Print timestamped log messages"""
@@ -134,6 +136,12 @@ def random_wait(wait_range):
     min_wait, max_wait = wait_range
     wait_time = random.uniform(min_wait, max_wait)
     return wait_time
+
+def focus_wow_window():
+    """Focus WoW window without moving the mouse permanently."""
+    pos = pyautogui.position()
+    Desktop(backend="win32").window(title_re=WOW_TITLE_REGEX).set_focus()
+    pyautogui.moveTo(pos.x, pos.y, duration=0)
 
 def record_and_detect_realtime(p, device_index, target_audio, out_of_range_audio, sample_rate, max_duration):
     """
@@ -207,9 +215,7 @@ def record_and_detect_realtime(p, device_index, target_audio, out_of_range_audio
     log(f"Final sample rate: {sample_rate} Hz")
     
     log(f"Setting WoW as the active application")
-    pos = pyautogui.position()
-    Desktop(backend="win32").window(title_re=WOW_TITLE_REGEX).set_focus()
-    pyautogui.moveTo(pos.x, pos.y, duration=0)
+    focus_wow_window()
     
     press_key(ACTION_KEY)
     
@@ -340,11 +346,17 @@ def main():
     log(f"  - Wait after target found: {WAIT_AFTER_TARGET_FOUND[0]}-{WAIT_AFTER_TARGET_FOUND[1]}s (random)")
     log(f"  - Wait after out-of-range: {WAIT_AFTER_OUT_OF_RANGE[0]}-{WAIT_AFTER_OUT_OF_RANGE[1]}s (random)")
     log(f"  - Wait after not found: {WAIT_AFTER_NOT_FOUND[0]}-{WAIT_AFTER_NOT_FOUND[1]}s (random)")
+    log(f"  - Lure Interval: {LURE_COOLDOWN_SECONDS} seconds (applied at start of cycle when due)")
     log("")
     log("FLOW:")
-    log(f"  1. Start listening → Press '{ACTION_KEY}' to begin action")
-    log(f"  2. If target sound → Press '{ACTION_KEY}' to end action")
-    log(f"  3. If out-of-range → Action ends automatically (no '{ACTION_KEY}')")
+    if USE_LURE:
+        log(f"  1. At the start of the cycle press '{LURE_KEY}' to apply lure")
+        log(f"     Then, every 9m30s elapsed, apply the lure with '{LURE_KEY}' again")
+    else:
+        log("  1. Lure disabled (USE_LURE=false)")
+    log(f"  2. Start listening → Press '{ACTION_KEY}' to begin action")
+    log(f"  3. If target sound → Press '{ACTION_KEY}' to end action")
+    log(f"  4. If out-of-range → Action ends automatically (no '{ACTION_KEY}')")
     log("="*60)
     
     try:
@@ -352,8 +364,22 @@ def main():
         target_count = 0
         out_of_range_count = 0
         no_sound_count = 0
+        last_lure_time = None
+            
         while True:
             iteration += 1
+            
+            if USE_LURE and (last_lure_time is None or (time.time() - last_lure_time) >= LURE_COOLDOWN_SECONDS):
+                log("")
+                log(f"🪱 Using lure now")
+                focus_wow_window()
+                press_key(LURE_KEY)
+                last_lure_time = time.time()
+                wait_time = random_wait(LURE_WAIT_TIME)
+                log(f"⌛ Waiting {wait_time:.2f} seconds to finish lure cast")
+                time.sleep(wait_time)  # small buffer so the game registers it clean
+                log("Cast complete, starting next cycle")
+            
             log("")
             log(f"{'='*60}")
             log(f"🎣 CYCLE #{iteration} - STARTING")
@@ -370,9 +396,7 @@ def main():
                 log("")
                 log(f"🐟 ACTION: Target detected → Setting WoW as the active application")
                 
-                pos = pyautogui.position()
-                Desktop(backend="win32").window(title_re=WOW_TITLE_REGEX).set_focus()
-                pyautogui.moveTo(pos.x, pos.y, duration=0)
+                focus_wow_window()
                     
                 log(f"🐟 Pressing '{ACTION_KEY}' to reel in the fish")
                 press_key(ACTION_KEY)
